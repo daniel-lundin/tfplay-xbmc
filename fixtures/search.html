@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8"/>
+    <title>TFPlay</title>
+    <base href="http://tfplay.org/"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <meta name="keywords" content="TFP, TFPlay, Tankafetast Play, Tankafetast, Streaming, "/>
+    <meta name="description" content="Tankafetasts egna streaming sida"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="template/dune/css/tfplay.css" rel="stylesheet">
+    <link href="css/dropbox.css" rel="stylesheet">
+    <link href="css/bootstrap-editor.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300"/>
+    <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/hogan-2.0.0.js"></script>
+    <script src="js/typeahead.min.js"></script>
+    <script src="js/tfplay.js"></script>
+    <script src="js/jquery.dropbox.js"></script>
+    <script src="js/bootbox.js"></script>
+    <script src="js/jquery.kinetic.min.js"></script>
+    <script src="js/jquery.mousewheel.min.js"></script>
+    <script src="js/jquery.smoothdivscroll-1.3-min.js"></script>
+    <script src="js/tags.js"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-46344453-1', 'tfplay.org');
+    ga('send', 'pageview');
+
+    var language = JSON.parse('{"code":"se","icon":"se.png","name":"Svenska"}');
+
+</script>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://tfplay.org/"><img src="images/logo.png" style="margin-top: 15px; width: 250px; height: auto; margin-right: 20px;" class="img-responsive"/></a>
+        </div>
+        <iframe width="1000px" height="1000px" frameborder="0" allowtransparency="true" scrolling="no" title="fb:like Facebook Social Plugin" src="http://www.facebook.com/plugins/like.php?action=like&amp;app_id=&amp;channel=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D40%23cb%3Df147923478%26domain%3Dtfplay.org%26origin%3Dhttp%253A%252F%252Ftfplay.org%252Ff1e086f14%26relation%3Dparent.parent&amp;color_scheme=light&amp;href=https%3A%2F%2Fwww.facebook.com%2Ftfplay.official&amp;layout=standard&amp;locale=sv_SE&amp;sdk=joey&amp;share=false&amp;show_faces=false" class="" style="border: none; visibility: visible; width: 450px; height: 20px; position: absolute; margin-top: 10px;"></iframe>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="nav navbar-nav" style="margin-top: 38px;">
+                <li class="">
+                    <a href="http://tfplay.org/">Home</a>
+                </li>
+                <li class="dropdown dropdown-search">
+                    <a href="#" data-toggle="dropdown"><i class="icon-search"></i> Search</a>
+
+
+                    <ul class="dropdown-menu" style="padding: 10px; min-width: 450px;">
+                        <li>
+                            <form method="get" action="http://tfplay.org/search/">
+
+                                <div class="col-xs-10" style="padding: 0px;">
+                                    <input type="text" class="form-control tfpsearch" name="q" placeholder="Sök">
+                                </div>
+                                <div class="col-xs-2" style="padding:0px; padding-left: 4px;">
+                                    <button type="submit" class="btn btn-primary btn-block"><i class="icon-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle " data-toggle="dropdown">Genres                        <i class="icon-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/action/">Action</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/adventure/">Adventure</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/animation/">Animation</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/biography/">Biography</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/comedy/">Comedy</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/crime/">Crime</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/documentary/">Documentary</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/drama/">Drama</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/family/">Family</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/fantasy/">Fantasy</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/film-noir/">Film-Noir</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/game-show/">Game-Show</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/history/">History</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/horror/">Horror</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/music/">Music</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/musical/">Musical</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/mystery/">Mystery</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/reality-tv/">Reality-TV</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/romance/">Romance</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/sci-fi/">Sci-Fi</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/short/">Short</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/sport/">Sport</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/talk-show/">Talk-Show</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/thriller/">Thriller</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/war/">War</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/western/">Western</a>
+                            </li>
+                                            </ul>
+                </li>
+                <li class="">
+                    <a href="http://tfplay.org/media/tv-series/">TV-Series</a></li>
+                <li class="">
+                    <a href="http://tfplay.org/media/kids/">Just for Kids</a></li>
+                                    <li class="">
+                        <a href="http://tfplay.org/user/register/">Register</a></li>
+                    <li class="">
+                        <a href="http://tfplay.org/user/login/">Login</a></li>
+                            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+        <div class="page-header">
+        <h1>
+            Searching for &quot;bad&quot;
+        </h1>
+    </div>
+    <div class="videos search-list">
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/bad-boys/">
+                    <img class="poster" src="cache/posters/0112442.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'><img src='images/flags/en.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/bad-boys-ii/">
+                    <img class="poster" src="cache/posters/0172156.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/en.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/all-things-to-all-men/">
+                    <img class="poster" src="cache/posters/2095568.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/open-grave/">
+                    <img class="poster" src="cache/posters/2071550.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'><img src='images/flags/en.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/superbad/">
+                    <img class="poster" src="cache/posters/0829482.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                                    </div>
+
+                <a href="http://tfplay.org/media/view/ice-age/">
+                    <img class="poster" src="cache/posters/152e04528140c7.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                                    </div>
+
+                <a href="http://tfplay.org/media/view/the-starving-games/">
+                    <img class="poster" src="cache/posters/2403029.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/jackass-presents-bad-grandpa/">
+                    <img class="poster" src="cache/posters/3063516.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                                    </div>
+
+                <a href="http://tfplay.org/media/view/bolt/">
+                    <img class="poster" src="cache/posters/0397892.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                                    </div>
+
+                <a href="http://tfplay.org/media/view/planes/">
+                    <img class="poster" src="cache/posters/152e9f7c9c1bd1.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                                    </div>
+
+                <a href="http://tfplay.org/media/view/breaking-bad/">
+                    <img class="poster" src="cache/posters/0903747.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                                    </div>
+
+                <a href="http://tfplay.org/media/view/alien/">
+                    <img class="poster" src="cache/posters/0078748.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/en.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/parkland/">
+                    <img class="poster" src="cache/posters/2345112.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/easy-a/">
+                    <img class="poster" src="cache/posters/1282140.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/you-dont-mess-with-the-zohan/">
+                    <img class="poster" src="cache/posters/0960144.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/world-war-z/">
+                    <img class="poster" src="cache/posters/0816711.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/vampires-suck/">
+                    <img class="poster" src="cache/posters/1666186.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/the-lone-ranger/">
+                    <img class="poster" src="cache/posters/1210819.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/the-dictator/">
+                    <img class="poster" src="cache/posters/1645170.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/iron-man-three/">
+                    <img class="poster" src="cache/posters/1300854.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/iron-man/">
+                    <img class="poster" src="cache/posters/0371746.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/eastern-promises/">
+                    <img class="poster" src="cache/posters/0765443.jpg"/>
+                </a>
+            </div>
+                    <div class="item-poster">
+                <div class="item-languages">
+                    <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Undertext'>                </div>
+
+                <a href="http://tfplay.org/media/view/after-earth/">
+                    <img class="poster" src="cache/posters/1815862.jpg"/>
+                </a>
+            </div>
+            </div>
+
+</div>
+
+
+<div class="footer">
+    <div class="container">
+        <a href="http://tfplay.org/">TFPlay</a> is a member of the Tankafetast imperium
+    </div>
+</div>
+
+<script>
+    (function () {
+        var _script = document.createElement('script');
+        _script.type = 'text/javascript';
+        _script.async = true;
+        _script.src = 'http://3c41ddc0.se/?placement=400312&async';
+
+        _script.onload = _script.onreadystatechange = function () {
+            var rs = this.readyState;
+            if (this.readyState && this.readyState != 'complete' && this.readyState != 'loaded')
+                return;
+
+            if (typeof load_ad_400312 == 'function')
+                load_ad_400312(_script);
+
+        };
+
+        var _s = document.getElementsByTagName('script')[0];
+        _s.parentNode.insertBefore(_script, _s)
+    })();
+</script>
+
+</body>
+</html>
