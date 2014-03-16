@@ -17,18 +17,18 @@ class TFPlay(object):
         return self.parse_search(self._search(search_string))
 
     def parse_search(self, html):
-        print html
-        LINK = '<a href="http://tfplay.org/media/view/'
-        a_idx = html.find(LINK)
-        print a_idx
+        RES = '<div class="item-poster'
+        r_idx = html.find(RES)
         matches = []
-        while a_idx != -1:
-            url_end = html.find('"', a_idx + len(LINK))
-            url = html[a_idx + 9: url_end]
-            title = html[a_idx + len(LINK):url_end - 1]
-            title = title[0].capitalize() + title[1:]
+        while r_idx != -1:
+            url_start = html.find('data-href="', r_idx) + 11
+            url_end = html.find('"', url_start)
+            url = html[url_start: url_end]
+            title_start = html.find('title="', url_end) + 7
+            title_end = html.find('"', title_start)
+            title = html[title_start:title_end]
             matches.append((title, url))
-            a_idx = html.find(LINK, a_idx + 1)
+            r_idx = html.find(RES, r_idx + 1)
         return matches
 
     def parse_movie_page(self, html):

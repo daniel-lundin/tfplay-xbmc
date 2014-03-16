@@ -7,7 +7,7 @@ class ParseTests(unittest.TestCase):
         with open('fixtures/search.html') as f:
             tf = tfplay.TFPlay()
             search_results = tf.parse_search(f.read())
-            self.assertEqual(len(search_results), 23, "Failed parsing search")
+            self.assertEqual(len(search_results), 24, "Failed parsing search")
 
     def test_movie_parse(self):
         with open('fixtures/movie.html') as f:
