@@ -16,6 +16,9 @@ class TFPlay(object):
     def search(self, search_string):
         return self.parse_search(self._search(search_string))
 
+    def is_serie(self, html):
+        return 'Season 1' in html
+
     def parse_search(self, html):
         RES = '<div class="item-poster'
         r_idx = html.find(RES)
