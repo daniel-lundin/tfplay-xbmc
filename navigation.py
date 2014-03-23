@@ -94,6 +94,10 @@ class Navigation(object):
 
     def build_main_menu(self):
         self.add_menu_item('Search', {'action': 'search'})
+        self.add_menu_item('Popular movies', {'action': 'popular_movies'})
+        self.add_menu_item('Newest movies', {'action': 'newest_movies'})
+        self.add_menu_item('Newest series', {'action': 'newest_series'})
+        self.add_menu_item('Newest for kids', {'action': 'newest_for_kids'})
         return self.xbmcplugin.endOfDirectory(self.handle)
 
     def search(self):
@@ -105,6 +109,23 @@ class Navigation(object):
             for m in matches:
                 self.add_movie_list_item(m[0], m[1])
             return self.xbmcplugin.endOfDirectory(self.handle)
+
+    def list_movie_items(self, items):
+        for item in items:
+            self.add_movie_list_item(item.title, item.url, item.thumb_url)
+        return self.xbmcplugin.endOfDirectory(self.handle)
+
+    def list_popular_movies(self):
+        self.list_movie_items(self.tf.list_popular_movies())
+
+    def list_newest_movies(self):
+        self.list_movie_items(self.tf.list_newest_movies())
+
+    def list_newest_series(self):
+        self.list_movie_items(self.tf.list_newest_series())
+
+    def list_newest_for_kids(self):
+        self.list_movie_items(self.tf.list_newest_for_kids())
 
     def open_item(self, title, url):
         html = self.tf._get(url)
@@ -146,6 +167,14 @@ class Navigation(object):
             action = self.params['action']
             if action == 'search':
                 return self.search()
+            if action == 'popular_movies':
+                return self.list_popular_movies()
+            if action == 'newest_movies':
+                return self.list_newest_movies()
+            if action == 'newest_series':
+                return self.list_newest_series()
+            if action == 'newest_for_kids':
+                return self.list_newest_for_kids()
             if action == 'open_item':
                 return self.open_item(self.params['title'],
                                       self.params['item_url'])

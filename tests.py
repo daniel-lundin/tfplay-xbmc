@@ -29,5 +29,15 @@ class ParseTests(unittest.TestCase):
             expected_url = "http://server1.media.tfplay.org/d3/d191515232ae70c3d33de440d6628bf6613a0ce8.mp4"
             self.assertEqual(stream_url, expected_url, "Error parsing movie player")
 
+    def test_parse_startpage(self):
+        with open('fixtures/startpage.html') as f:
+            tf = tfplay.TFPlay()
+            startpage = tf.parse_start_page(f.read())
+            print startpage.popular_movies
+            self.assertEqual(len(startpage.popular_movies), 30)
+            self.assertEqual(len(startpage.newest_movies), 30)
+            self.assertEqual(len(startpage.newest_series), 30)
+            self.assertEqual(len(startpage.newest_for_kids), 30)
+
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,14 @@
 import urllib2
+from collections import namedtuple
 
 SEARCH_URL = 'http://tfplay.org/search/'
+STARTPAGE_URL = 'http://tfplay.org/'
+
+MovieItem = namedtuple('MovieItem', ['title', 'url', 'thumb_url'])
+StartPage = namedtuple('StartPage', ['popular_movies',
+                                     'newest_movies',
+                                     'newest_series',
+                                     'newest_for_kids'])
 
 
 class TFPlay(object):
@@ -13,11 +21,26 @@ class TFPlay(object):
         res = self._get(SEARCH_URL + '?q=' + search_string)
         return res
 
+    def _startpage(self):
+        return self._get(STARTPAGE_URL)
+
     def search(self, search_string):
         return self.parse_search(self._search(search_string))
 
     def is_serie(self, html):
         return 'Season 1' in html
+
+    def list_popular_movies(self):
+        return self.parse_start_page(self._startpage()).popular_movies
+
+    def list_newest_movies(self):
+        return self.parse_start_page(self._startpage()).newest_movies
+
+    def list_newest_series(self):
+        return self.parse_start_page(self._startpage()).newest_series
+
+    def list_newest_for_kids(self):
+        return self.parse_start_page(self._startpage()).newest_for_kids
 
     def parse_search(self, html):
         RES = '<div class="item-poster'
@@ -33,6 +56,29 @@ class TFPlay(object):
             matches.append((title, url))
             r_idx = html.find(RES, r_idx + 1)
         return matches
+
+    def parse_video_list(self, html):
+        item_start = html.find('<div class="item"')
+        items = []
+        while item_start != -1:
+            title_start = html.find('title="', item_start) + 7
+            title_end = html.find('"', title_start)
+            a_start = html.find('<a href="', item_start) + 9
+            a_end = html.find('"', a_start)
+            thumb_start = html.find('<img src="', a_start) + 10
+            thumb_end = html.find('"', thumb_start)
+            items.append(MovieItem(html[title_start:title_end],
+                                   html[a_start:a_end],
+                                   html[thumb_start:thumb_end]))
+            item_start = html.find('<div class="item"', item_start + 1)
+        return items
+
+    def parse_start_page(self, html):
+        parts = html.split('videos-list')
+        return StartPage(self.parse_video_list(parts[1]),
+                         self.parse_video_list(parts[2]),
+                         self.parse_video_list(parts[3]),
+                         self.parse_video_list(parts[4]))
 
     def parse_movie_page(self, html):
         LINK = '<a href="http://tfplay.org/media/play/'
@@ -83,6 +129,7 @@ class TFPlay(object):
         #start = html.find(TRACK)
         #end = html.find('"', start + 13)
         #url = html[start + 13:end]
+
 
 if __name__ == '__main__':
     tf = TFPlay()
