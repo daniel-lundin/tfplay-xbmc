@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8"/>
+    <title>TFPlay</title>
+    <base href="http://tfplay.org/"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <meta name="keywords" content="TFP, TFPlay, Tankafetast Play, Tankafetast, Streaming, "/>
+    <meta name="description" content="Tankafetasts egna streaming sida"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="template/dune/css/tfplay.css" rel="stylesheet">
+    <link href="css/dropbox.css" rel="stylesheet">
+    <link href="css/bootstrap-editor.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300"/>
+    <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/hogan-2.0.0.js"></script>
+    <script src="js/typeahead.min.js"></script>
+    <script src="js/tfplay.js"></script>
+    <script src="js/jquery.dropbox.js"></script>
+    <script src="js/bootbox.js"></script>
+    <script src="js/jquery.kinetic.min.js"></script>
+    <script src="js/jquery.mousewheel.min.js"></script>
+    <script src="js/jquery.smoothdivscroll-1.3-min.js"></script>
+    <script src="js/tags.js"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-46344453-1', 'tfplay.org');
+    ga('send', 'pageview');
+
+    var language = JSON.parse('{"code":"se","icon":"se.png","name":"Svenska"}');
+</script>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu" style="margin-top: 35px;">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://tfplay.org/"><img src="images/logo.png" style="margin-top: 10px; margin-bottom: 10px; width: 300px; height: auto; margin-right: 20px;" class="img-responsive"/></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="nav navbar-nav" style="margin-top: 33px;">
+                <li class="">
+                    <a href="http://tfplay.org/">Home</a>
+                </li>
+                <li class="dropdown dropdown-search">
+                    <a href="#" data-toggle="dropdown">Search</a>
+                    <ul class="dropdown-menu" style="padding: 10px; min-width: 350px;">
+                        <li>
+                            <form method="get" action="http://tfplay.org/search/">
+                                <input type="text" class="form-control tfpsearch" name="q" placeholder="Sök">
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle " data-toggle="dropdown">Genres                        <i class="icon-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/action/">Action</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/adventure/">Adventure</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/animation/">Animation</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/biography/">Biography</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/comedy/">Comedy</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/crime/">Crime</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/documentary/">Documentary</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/drama/">Drama</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/family/">Family</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/fantasy/">Fantasy</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/film-noir/">Film-Noir</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/game-show/">Game-Show</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/history/">History</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/horror/">Horror</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/music/">Music</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/musical/">Musical</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/mystery/">Mystery</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/reality-tv/">Reality-TV</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/romance/">Romance</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/sci-fi/">Sci-Fi</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/short/">Short</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/sport/">Sport</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/talk-show/">Talk-Show</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/thriller/">Thriller</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/war/">War</a>
+                            </li>
+                                                    <li class="">
+                                <a href="http://tfplay.org/media/genre/western/">Western</a>
+                            </li>
+                                            </ul>
+                </li>
+                <li class="active">
+                    <a href="http://tfplay.org/media/tv-series/">TV-Series</a></li>
+                <li class="">
+                    <a href="http://tfplay.org/media/kids/">Just for Kids</a></li>
+
+            </ul>
+
+            <ul class="navbar-right nav navbar-nav" style="margin-top: 33px;">
+                                    <li class="">
+                        <a href="http://tfplay.org/user/register/">Register</a></li>
+                    <li class="">
+                        <a href="http://tfplay.org/user/login/">Login</a></li>
+                            </ul>
+        </div>
+    </div>
+</div>
+        <div id="carousel" class="carousel slide">
+            <ol class="carousel-indicators">
+                                    <li data-target="#carousel" data-slide-to="0" class="active"></li>
+                                        <li data-target="#carousel" data-slide-to="1" class=""></li>
+                                        <li data-target="#carousel" data-slide-to="2" class=""></li>
+                                        <li data-target="#carousel" data-slide-to="3" class=""></li>
+                                        <li data-target="#carousel" data-slide-to="4" class=""></li>
+                                        <li data-target="#carousel" data-slide-to="5" class=""></li>
+                                        <li data-target="#carousel" data-slide-to="6" class=""></li>
+                                        <li data-target="#carousel" data-slide-to="7" class=""></li>
+                                        <li data-target="#carousel" data-slide-to="8" class=""></li>
+                                </ol>
+            <div class="carousel-inner">
+                                    <div class="item active">
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <a href="http://tfplay.org/media/view/pacific-rim/">
+                                    <h3>Pacific Rim</h3>
+
+                                    <div class="poster">
+                                        <img src="cache/posters/1663662.jpg"/>
+                                    </div>
+                                    <p class="lead">
+                                        When monstrous creatures, known as Kaiju, started rising from the sea, a war began that would take millions of lives and consume humanity&#39;s resources for years on end. To combat the giant Kaiju, a special type of weapon was devised: massive robots, called Jaegers, which are controlled simultaneously by two pilots whose minds are locked in a neur...                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="item ">
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <a href="http://tfplay.org/media/view/i-frankenstein/">
+                                    <h3>I, Frankenstein</h3>
+
+                                    <div class="poster">
+                                        <img src="cache/posters/1418377.jpg"/>
+                                    </div>
+                                    <p class="lead">
+                                        Dr. Victor Frankenstein dies frozen to death and the creature buries him at the cemetery of his family. However he is attacked by demons but he kills one of them and Gargoyles save him and take him to a Cathedral where the Gargoyles Order gathers. The Queen of the Gargoyles Leonore keeps Dr. Frankenstein&#39;s journal together with the treasures of ...                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="item ">
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <a href="http://tfplay.org/media/view/anchorman-2-the-legend-continues/">
+                                    <h3>Anchorman 2: The Legend Continues</h3>
+
+                                    <div class="poster">
+                                        <img src="cache/posters/1531fb36923125.jpg"/>
+                                    </div>
+                                    <p class="lead">
+                                        Having left San Diego for New York City, Ron Burgundy is living the high life with his wife Veronica Corningstone and son Walter Burgundy. However, when the boss decides to promote Veronica to full time lead anchor and fire Ron, everything changes. Now heading back to San Diego, Ron is washed up and working part time at Sea World. His shot at re...                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="item ">
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <a href="http://tfplay.org/media/view/delivery-man/">
+                                    <h3>Delivery Man</h3>
+
+                                    <div class="poster">
+                                        <img src="cache/posters/2387559.jpg"/>
+                                    </div>
+                                    <p class="lead">
+                                        David Wozniak is a man who is irresponsible and unreliable which doesn&#39;t exactly endear him to his family and his girlfriend. And when she tells him that she&#39;s pregnant, she tells him, she plans to do it on her own because she can&#39;t count on him. One day a lawyer shows up and talks to him about the fact that twenty years ago he was a sperm donor...                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="item ">
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <a href="http://tfplay.org/media/view/bad-country/">
+                                    <h3>Bad Country</h3>
+
+                                    <div class="poster">
+                                        <img src="cache/posters/2350892.jpg"/>
+                                    </div>
+                                    <p class="lead">
+                                        Inspired by real events, BAD COUNTRY is a gritty Louisiana set crime drama. Detective Bud Carter&#39;s investigations lead to the arrest of Jesse Weiland, a contract killer from a criminal syndicate. Weiland, facing life in prison and losing his family, puts his trust in Carter and becomes an informant. The case attracts the FBI, who in turn, wrestl...                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="item ">
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <a href="http://tfplay.org/media/view/the-wolf-of-wall-street/">
+                                    <h3>The Wolf of Wall Street</h3>
+
+                                    <div class="poster">
+                                        <img src="cache/posters/0993846.jpg"/>
+                                    </div>
+                                    <p class="lead">
+                                        In The Wolf of Wall Street DiCaprio plays Belfort, a Long Island penny stockbroker who served 36 months in prison for defrauding investors in a massive 1990s securities scam that involved widespread corruption on Wall Street and in the corporate banking world, including shoe designer Steve Madden.                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="item ">
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <a href="http://tfplay.org/media/view/american-hustle/">
+                                    <h3>American Hustle</h3>
+
+                                    <div class="poster">
+                                        <img src="cache/posters/1800241.jpg"/>
+                                    </div>
+                                    <p class="lead">
+                                        A fictional film set in the alluring world of one of the most stunning scandals to rock our nation, American Hustle tells the story of brilliant con man Irving Rosenfeld (Christian Bale), who along with his equally cunning and seductive British partner Sydney Prosser (Amy Adams) is forced to work for a wild FBI agent Richie DiMaso (Bradley Coope...                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="item ">
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <a href="http://tfplay.org/media/view/enders-game/">
+                                    <h3>Ender's Game</h3>
+
+                                    <div class="poster">
+                                        <img src="cache/posters/1731141.jpg"/>
+                                    </div>
+                                    <p class="lead">
+                                        The Earth was ravaged by the Formics, an alien race seemingly determined to destroy humanity. Seventy years later, the people of Earth remain banded together to prevent their own annihilation from this technologically superior alien species. Ender Wiggin, a quiet but brilliant boy, may become the savior of the human race. He is separated from hi...                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="item ">
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <a href="http://tfplay.org/media/view/47-ronin/">
+                                    <h3>47 Ronin</h3>
+
+                                    <div class="poster">
+                                        <img src="cache/posters/1335975.jpg"/>
+                                    </div>
+                                    <p class="lead">
+                                        While hunting in the forest, Lord Asano of Ako and his samurai find a young half-breed and take him with them to live in the castle. Several years later, Lord Asano holds a tournament to welcome the Shogun to Ako. The night after the tournament, Lord Asano is bewitched into hurting Lord Kira of Nagato, and is punished into committing seppuku by ...                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                                </div>
+
+        </div>
+    <div class="container">
+    <div class="page-header">
+    <h1>TV-Series</h1>
+</div>
+<div class="videos">
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/the-originals/"  data-rel="popover" title="The Originals" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 646 <span class='seperator'></span> <i class='icon-star'></i> 8,7             <span class='pull-right'>
+                <i class='icon-upload'></i> 2 days ago             </span>
+             </small>
+             <br />
+             <hr />
+             A spin-off from The Vampire Diaries and set in New Orleans, The Originals centers on the Mikaelson siblings, otherwise known as the world&amp;#039;s original vampires: Klaus (Joseph Morgan), Elijah (Daniel Gillies), and Rebekah (Claire Holt). Now Klau...             ">
+            <div class="item-languages">
+                <img src='images/flags/en.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/2632424.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/person-of-interest/"  data-rel="popover" title="Person of Interest" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 299 <span class='seperator'></span> <i class='icon-star'></i> 8,4             <span class='pull-right'>
+                <i class='icon-upload'></i> 3 days ago             </span>
+             </small>
+             <br />
+             <hr />
+             A billionaire software-genius named Harold Finch creates a Machine for the government that is designed to detect acts of terror before they can happen, by monitoring the entire world through every cell-phone, email and surveillance camera. Finch d...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1839578.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/ncis-naval-criminal-investigative-service/"  data-rel="popover" title="NCIS: Naval Criminal Investigative Service" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 261 <span class='seperator'></span> <i class='icon-star'></i> 8,1             <span class='pull-right'>
+                <i class='icon-upload'></i> 4 days ago             </span>
+             </small>
+             <br />
+             <hr />
+             Special Agent Leroy Jethro Gibbs is the leader of a team of special agents belonging to the NCIS (Naval Criminal Investigative Service) Major Case Response Team. Gibbs, a former Marine, is a tough investigator and a highly skilled interrogator who...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0364845.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/how-i-met-your-mother/"  data-rel="popover" title="How I Met Your Mother" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 658 <span class='seperator'></span> <i class='icon-star'></i> 8,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 5 days ago             </span>
+             </small>
+             <br />
+             <hr />
+             The year is 2030. Ted Mosby is relaying the story of how he met his wife to his daughter and son. The story starts in the year 2005, when then twenty-seven year old architect Ted was spurred on to want to get married after his best friends from hi...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0460649.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/scrubs/"  data-rel="popover" title="Scrubs" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 661 <span class='seperator'></span> <i class='icon-star'></i> 8,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 6 days ago             </span>
+             </small>
+             <br />
+             <hr />
+             In the unreal world of Sacred Heart Hospital, intern John &quot;J.D&quot; Dorian learns the ways of medicine, friendship and life.             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/0285403.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/black-sails/"  data-rel="popover" title="Black Sails" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 122 <span class='seperator'></span> <i class='icon-star'></i> 8,2             <span class='pull-right'>
+                <i class='icon-upload'></i> 6 days ago             </span>
+             </small>
+             <br />
+             <hr />
+             Captain Flint and his pirates, twenty years prior to Robert Louis Stevenson&amp;#039;s classic &quot;Treasure Island&quot;.             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/2375692.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/the-walking-dead/"  data-rel="popover" title="The Walking Dead" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 4 593 <span class='seperator'></span> <i class='icon-star'></i> 8,7             <span class='pull-right'>
+                <i class='icon-upload'></i> 1 week ago             </span>
+             </small>
+             <br />
+             <hr />
+             Rick Grimes is a former Sheriff&amp;#039;s deputy who has been in a coma for several months after being shot while on duty. When he wakes, he discovers that the world has been taken over by zombies, and that he seems to be the only person still alive....             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/1520211.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/two-and-a-half-men/"  data-rel="popover" title="Two and a Half Men" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 875 <span class='seperator'></span> <i class='icon-star'></i> 7,2             <span class='pull-right'>
+                <i class='icon-upload'></i> 1 week ago             </span>
+             </small>
+             <br />
+             <hr />
+             The Harper brothers Charlie and Alan are almost opposites but form a great team. They have little in common except their dislike for their mundane, maternally cold and domineering mother, Evelyn. Alan, a compulsively neat chiropractor and control-...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0369179.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/the-big-bang-theory/"  data-rel="popover" title="The Big Bang Theory" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 2 275 <span class='seperator'></span> <i class='icon-star'></i> 8,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 1 week ago             </span>
+             </small>
+             <br />
+             <hr />
+             Leonard Hofstadter and Sheldon Cooper are both brilliant physicists working at Caltech in Pasadena, California. They are colleagues, best friends, and roommates, although in all capacities their relationship is always tested primarily by Sheldon&amp;#...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0898266.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/smallville/"  data-rel="popover" title="Smallville" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 466 <span class='seperator'></span> <i class='icon-star'></i> 7,5             <span class='pull-right'>
+                <i class='icon-upload'></i> 1 week ago             </span>
+             </small>
+             <br />
+             <hr />
+             The numerous miraculous rescues by the local wonder boy Clark have aroused suspicions amongst colonials of Smallville. Interestingly, the boy has managed to downplay his acts of various heroic egresses in the past. They say he&amp;#039;s either too fa...             ">
+            <div class="item-languages">
+                <img src='images/flags/en.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/0279600.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/agents-of-shield/"  data-rel="popover" title="Agents of S.H.I.E.L.D." data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 295 <span class='seperator'></span> <i class='icon-star'></i> 7,2             <span class='pull-right'>
+                <i class='icon-upload'></i> 1 week ago             </span>
+             </small>
+             <br />
+             <hr />
+             After the Battle of New York, the world has changed. It now knows not only about the Avengers, but also the powerful menaces that require those superheroes and more to face them. In response, Phil Coulson of the Strategic Homeland Intervention, En...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2364582.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/the-tomorrow-people/"  data-rel="popover" title="The Tomorrow People" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 677 <span class='seperator'></span> <i class='icon-star'></i> 7,5             <span class='pull-right'>
+                <i class='icon-upload'></i> 1 week ago             </span>
+             </small>
+             <br />
+             <hr />
+             The story of several young people from around the world who represent the next stage in human evolution, possessing special powers, including the ability to teleport and communicate with each other telepathically. Together they work to defeat the ...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2660734.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/breaking-bad/"  data-rel="popover" title="Breaking Bad" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 573 <span class='seperator'></span> <i class='icon-star'></i> 9,5             <span class='pull-right'>
+                <i class='icon-upload'></i> 2 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             When chemistry teacher, Walter White, is diagnosed with Stage III cancer and given only two years to live, he decides he has nothing to lose. He lives with his wife and teenage son, who has cerebral palsy, in New Mexico. Determined to ensure that ...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0903747.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/prison-break/"  data-rel="popover" title="Prison Break" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 228 <span class='seperator'></span> <i class='icon-star'></i> 8,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 2 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             Structural Engineer Michael Scofield turns himself in to the Fox River Penitentiary in order to break out his brother Lincoln Burrows, who is on death row for the murder of the Vice President&amp;#039;s brother. But Lincoln was set up by some of the C...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0455275.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/kenny-starfighter/"  data-rel="popover" title="Kenny Starfighter" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 535 <span class='seperator'></span> <i class='icon-star'></i> 7,9             <span class='pull-right'>
+                <i class='icon-upload'></i> 2 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             Some kids discover that there&amp;#039;s something wrong with their school; their teachers are acting weird and the teaching therefore also becomes weird. An intergalactic hero, Kenny Starfighter, crashes his space-bus (very similar to that of Lone St...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/15314a8cc2829d.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/twisted/"  data-rel="popover" title="Twisted" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 181 <span class='seperator'></span> <i class='icon-star'></i> 7,9             <span class='pull-right'>
+                <i class='icon-upload'></i> 2 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             A teen with a troubled past reconnects with his two female best friends from childhood. He becomes the prime suspect when a fellow student is surprisingly found dead in her home.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2355844.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/chuck/"  data-rel="popover" title="Chuck" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 292 <span class='seperator'></span> <i class='icon-star'></i> 8,3             <span class='pull-right'>
+                <i class='icon-upload'></i> 3 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             Since geeky Chuck accidentally became the mental host of the Intersect, an unprecedentedly powerful computer mind containing all information available to the US government, he&amp;#039;s a primordial national security asset and risk. So CIA and NSA ea...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0934814.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/the-vampire-diaries/"  data-rel="popover" title="The Vampire Diaries" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 354 <span class='seperator'></span> <i class='icon-star'></i> 8,2             <span class='pull-right'>
+                <i class='icon-upload'></i> 4 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             The vampire brothers Damon and Stefan Salvatore, eternal adolescents, having been leading &amp;#039;normal&amp;#039; lives, hiding their bloodthirsty condition, for centuries, moving on before their non-aging is noticed. They are back in the Virginia town...             ">
+            <div class="item-languages">
+                <img src='images/flags/en.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'><img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/1405406.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/macken/"  data-rel="popover" title="Macken" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 752 <span class='seperator'></span> <i class='icon-star'></i> 7,7             <span class='pull-right'>
+                <i class='icon-upload'></i> 4 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             &amp;Ouml;verallt vid en v&amp;auml;g ligger en mack. Den heter Roys &amp; Rogers Bilservice. Macken ligger kvar d&amp;auml;r den alltid har legat. &amp;Ouml;verallt. Och Roy och Roger f&amp;ouml;rblir precis likadana som dom alltid har varit. Precis som alla andra bilre...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/153086e1292733.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/adventures-of-the-gummi-bears/"  data-rel="popover" title="Bumbibjörnarna" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 725 <span class='seperator'></span> <i class='icon-star'></i> 7,8             <span class='pull-right'>
+                <i class='icon-upload'></i> 4 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             Bumbibj&amp;ouml;rnarna utspelar sig i det medeltida kungariket Dunwyn, och i handlingens centrum st&amp;aring;r en grupp av sex (senare sju) bumbibj&amp;ouml;rnar, f&amp;auml;rggranna varelser med m&amp;auml;nskliga drag, som bor i det underjordiska Bumbibo.&lt;br /&gt;
+...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0088528.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/full-frys/"  data-rel="popover" title="Full Frys" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 009 <span class='seperator'></span> <i class='icon-star'></i> 6,7             <span class='pull-right'>
+                <i class='icon-upload'></i> 4 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             V&amp;auml;lkommen till Dolkens livs i Falkenberg! Sture &amp;auml;r butikschef och har ett f&amp;ouml;rh&amp;aring;llande med Evy som ocks&amp;aring; &amp;auml;r hans sekreterare. Edvin &amp;auml;r butikens korkade f&amp;ouml;rman och den som ligger bakom de flesta katastrofer....             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/15307a2e8bde59.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/co-segemyhr/"  data-rel="popover" title="c/o Segemyhr" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 884 <span class='seperator'></span> <i class='icon-star'></i> 6,8             <span class='pull-right'>
+                <i class='icon-upload'></i> 4 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             den sj&amp;auml;lvupptagne f&amp;ouml;re detta b&amp;ouml;rsm&amp;auml;klaren Fredrik Segemyhr. Han v&amp;auml;grar erk&amp;auml;nna att han inte l&amp;auml;ngre tillh&amp;ouml;r n&amp;auml;ringslivets toppkrafter och hyser tv&amp;aring; inneboende f&amp;ouml;r att klara hyran till sin fina...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152f0a7ad44b68.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/archer/"  data-rel="popover" title="Archer" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 654 <span class='seperator'></span> <i class='icon-star'></i> 8,9             <span class='pull-right'>
+                <i class='icon-upload'></i> 4 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             At ISIS, an international spy agency, global crises are merely opportunities for its highly trained employees to confuse, undermine, betray and royally screw each other. At the center of it all is suave master spy Sterling Archer, whose less-than-...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1486217.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/homeland/"  data-rel="popover" title="Homeland" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 706 <span class='seperator'></span> <i class='icon-star'></i> 8,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 4 weeks ago             </span>
+             </small>
+             <br />
+             <hr />
+             Carrie Mathison, a CIA operations officer, is on probation after carrying out an unauthorized operation in Iraq. As a result, she has been reassigned to the Counter terrorism center. Whilst in Iraq, she was warned that an American prisoner had bee...             ">
+            <div class="item-languages">
+                <img src='images/flags/en.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'><img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/1796960.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/white-collar/"  data-rel="popover" title="White Collar" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 312 <span class='seperator'></span> <i class='icon-star'></i> 8,4             <span class='pull-right'>
+                <i class='icon-upload'></i> 15 February 2014  - 17:23             </span>
+             </small>
+             <br />
+             <hr />
+             The unlikely partnership between charming con artist Neal Caffrey and straightman FBI agent Peter Burke. Caffrey provides his expertise to help Burke catch other elusive criminals in exchange for his freedom, and together they prove that to solve ...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1358522.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/that-70s-show/"  data-rel="popover" title="That '70s Show" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 304 <span class='seperator'></span> <i class='icon-star'></i> 8,2             <span class='pull-right'>
+                <i class='icon-upload'></i> 15 February 2014  - 04:53             </span>
+             </small>
+             <br />
+             <hr />
+             Eric Forman is a typical high school student growing up in Wisconsin in 1976 with his family and his friends. Together, they have the same kind of joys and sorrows that just about every teenager has while growing up. This show parodied many of the...             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/0165598.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/revolution/"  data-rel="popover" title="Revolution" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 722 <span class='seperator'></span> <i class='icon-star'></i> 6,7             <span class='pull-right'>
+                <i class='icon-upload'></i> 15 February 2014  - 00:31             </span>
+             </small>
+             <br />
+             <hr />
+             Our entire way of life depends on electricity. So what would happen if it just stopped working? Well, one day, like a switch turned off, the world is suddenly thrust back into the dark ages. Planes fall from the sky, hospitals shut down, and commu...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2070791.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/suits/"  data-rel="popover" title="Suits" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 538 <span class='seperator'></span> <i class='icon-star'></i> 8,9             <span class='pull-right'>
+                <i class='icon-upload'></i> 15 February 2014  - 00:31             </span>
+             </small>
+             <br />
+             <hr />
+             While running from a drug deal gone bad, Mike Ross, a brilliant young college-dropout, slips into a job interview with one of New York City&amp;#039;s best legal closers, Harvey Specter. Tired of cookie-cutter law school grads, Harvey takes a gamble b...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1632701.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/suburgatory/"  data-rel="popover" title="Suburgatory" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 130 <span class='seperator'></span> <i class='icon-star'></i> 7,3             <span class='pull-right'>
+                <i class='icon-upload'></i> 15 February 2014  - 00:13             </span>
+             </small>
+             <br />
+             <hr />
+             A teenage girl moves from the city to the suburbs.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1741256.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/chicago-pd/"  data-rel="popover" title="Chicago PD" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 681 <span class='seperator'></span> <i class='icon-star'></i> 8,4             <span class='pull-right'>
+                <i class='icon-upload'></i> 14 February 2014  - 01:56             </span>
+             </small>
+             <br />
+             <hr />
+             District 21 of the Chicago Police Department is made up of two distinctly different groups. There are the uniformed cops who patrol the beat and go head-to-head with the city&amp;#039;s street crimes. And there&amp;#039;s the Intelligence Unit, the team t...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2805096.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/new-girl/"  data-rel="popover" title="New Girl" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 989 <span class='seperator'></span> <i class='icon-star'></i> 8,0             <span class='pull-right'>
+                <i class='icon-upload'></i> 14 February 2014  - 01:55             </span>
+             </small>
+             <br />
+             <hr />
+             Jess - a bubbly offbeat teacher who is known to burst into spontaneous song - catches her boyfriend with another woman, and needs a new place to live. She moves into a loft with three single guys she&amp;#039;s never met before. Nick is a jaded law-sc...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1826940.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/top-gear/"  data-rel="popover" title="Top Gear" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 285 <span class='seperator'></span> <i class='icon-star'></i> 8,9             <span class='pull-right'>
+                <i class='icon-upload'></i> 13 February 2014  - 20:45             </span>
+             </small>
+             <br />
+             <hr />
+             Jeremy, Richard and James talk about everything car-related. From new cars to how they&amp;#039;re fueled, this show has it all.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1628033.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/hart-of-dixie/"  data-rel="popover" title="Hart of Dixie" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 275 <span class='seperator'></span> <i class='icon-star'></i> 7,8             <span class='pull-right'>
+                <i class='icon-upload'></i> 11 February 2014  - 20:04             </span>
+             </small>
+             <br />
+             <hr />
+             Fast-talking New Yorker and brand new doctor Zoe Hart has it all figured out - after graduating top of her class from medical school, she&amp;#039;ll follow in her father&amp;#039;s footsteps and become a cardio-thoracic surgeon. But when her dreams fall ...             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/1832979.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/inkognito/"  data-rel="popover" title="Inkognito" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 867 <span class='seperator'></span> <i class='icon-star'></i> 5,8             <span class='pull-right'>
+                <i class='icon-upload'></i> 08 February 2014  - 14:53             </span>
+             </small>
+             <br />
+             <hr />
+             Inkognito handlar om hur stj&amp;auml;rn&amp;aring;klagaren John Sj&amp;ouml;&amp;ouml; (Per Morberg) f&amp;aring;r nog av de brott som ostraffat beg&amp;aring;s i samh&amp;auml;llets toppskikt. F&amp;ouml;r att s&amp;auml;tta dit de skyldiga samlar han tre unga specialister: en yrk...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152f636c902123.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/game-of-thrones/"  data-rel="popover" title="Game of Thrones" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 3 136 <span class='seperator'></span> <i class='icon-star'></i> 9,4             <span class='pull-right'>
+                <i class='icon-upload'></i> 05 February 2014  - 21:50             </span>
+             </small>
+             <br />
+             <hr />
+             Seven noble families fight for control of the mythical land of Westeros. Political and sexual intrigue is pervasive. Robert Baratheon, King of Westeros, asks his old friend Eddard, Lord Stark, to serve as Hand of the King, or highest official. Sec...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0944947.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/parks-and-recreation/"  data-rel="popover" title="Parks and Recreation" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 49 <span class='seperator'></span> <i class='icon-star'></i> 8,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 05 February 2014  - 14:35             </span>
+             </small>
+             <br />
+             <hr />
+             The absurd antics of an Indiana town&amp;#039;s public officials as they pursue sundry projects to make their city a better place.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1266020.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/lost/"  data-rel="popover" title="Lost" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 362 <span class='seperator'></span> <i class='icon-star'></i> 8,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 05 February 2014  - 14:09             </span>
+             </small>
+             <br />
+             <hr />
+             After a mysterious and bloody airplane crash, 48 survivors are left stranded on a Pacific Island... miles off course. It soon becomes apparent that they will not have to cope only with the forces of nature, but with the island&amp;#039;s secrets, incl...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0411008.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/chicago-fire/"  data-rel="popover" title="Chicago Fire" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 624 <span class='seperator'></span> <i class='icon-star'></i> 7,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 04 February 2014  - 18:06             </span>
+             </small>
+             <br />
+             <hr />
+             The story of firefighters in Chicago.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2261391.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/orange-is-the-new-black/"  data-rel="popover" title="Orange Is the New Black" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 719 <span class='seperator'></span> <i class='icon-star'></i> 8,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 03 February 2014  - 19:39             </span>
+             </small>
+             <br />
+             <hr />
+             The story of Piper Chapman, a woman in her thirties who is sentenced to fifteen months in prison after being convicted of a decade-old crime of transporting money for her drug-dealing girlfriend.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2372162.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/arrow/"  data-rel="popover" title="Arrow" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 546 <span class='seperator'></span> <i class='icon-star'></i> 8,2             <span class='pull-right'>
+                <i class='icon-upload'></i> 03 February 2014  - 13:32             </span>
+             </small>
+             <br />
+             <hr />
+             Oliver Queen and his father are lost at sea when their luxury yacht sinks, apparently in a storm. His father dies, but Oliver survives for five years on an uncharted island and eventually returns home. But he wasn&amp;#039;t alone on the island where ...             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/2193021.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/talespin/"  data-rel="popover" title="Luftens hjältar" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 265 <span class='seperator'></span> <i class='icon-star'></i> 7,8             <span class='pull-right'>
+                <i class='icon-upload'></i> 03 February 2014  - 10:49             </span>
+             </small>
+             <br />
+             <hr />
+             This casts key characters from the Jungle Book into a 1930&amp;#039;s pacific setting where Baloo is a bush pilot who finds himself as part of a struggling courier company.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152ef66c43351d.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/ducktales/"  data-rel="popover" title="Knatte, Fnatte och Tjatte på äventyr" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 268 <span class='seperator'></span> <i class='icon-star'></i> 8,2             <span class='pull-right'>
+                <i class='icon-upload'></i> 03 February 2014  - 05:02             </span>
+             </small>
+             <br />
+             <hr />
+             S&amp;auml;song 01E17,  02E02, 02E10, 02E19, 03E03, 03E06, 03E10-03E17, 03E20, 04E02, 04E05, 05E18 &amp;Auml;r p&amp;aring; engelska! Kunde inte hitta dom avsnitten p&amp;aring; svenska.-----------------------------------------------------------------------------...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152ef163b3cf36.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/oz/"  data-rel="popover" title="Oz" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 566 <span class='seperator'></span> <i class='icon-star'></i> 9,0             <span class='pull-right'>
+                <i class='icon-upload'></i> 01 February 2014  - 14:24             </span>
+             </small>
+             <br />
+             <hr />
+             Oz chronicles life inside an experimental cell block in the Oswald Maximum Security Correctional Facility: Level Four called Emerald City. Under unit manager Tim McManus and Warden Leo Glynn, the inmates in Em City all struggle to fulfill their ow...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0118421.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/the-wire/"  data-rel="popover" title="The Wire" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 708 <span class='seperator'></span> <i class='icon-star'></i> 9,4             <span class='pull-right'>
+                <i class='icon-upload'></i> 01 February 2014  - 14:17             </span>
+             </small>
+             <br />
+             <hr />
+             Set in Baltimore, this show centers around the city&amp;#039;s inner-city drug scene. It starts as mid-level drug dealer, D&amp;#039;Angelo Barksdale beats a murder rap. After a conversation with a judge, Det. James McNulty has been assigned to lead a joi...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0306414.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/supernatural/"  data-rel="popover" title="Supernatural" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 639 <span class='seperator'></span> <i class='icon-star'></i> 8,8             <span class='pull-right'>
+                <i class='icon-upload'></i> 01 February 2014  - 06:13             </span>
+             </small>
+             <br />
+             <hr />
+             This television drama is about two brothers, Sam and Dean, who were raised by their father, John, to hunt and kill all things that go &quot;bump in the night&quot; after his wife, Mary, was murdered by evil supernatural being when the boys were young. 22 ye...             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/0460681.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/generation-kill/"  data-rel="popover" title="Generation Kill" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 717 <span class='seperator'></span> <i class='icon-star'></i> 8,8             <span class='pull-right'>
+                <i class='icon-upload'></i> 30 January 2014  - 09:09             </span>
+             </small>
+             <br />
+             <hr />
+             A Rolling Stone reporter, embedded with The 1st Recon Marines chronicles his experiences during the first wave of the American-led assault on Baghdad in 2003.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0995832.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/percy-tarar/"  data-rel="popover" title="Percy tårar" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 881 <span class='seperator'></span> <i class='icon-star'></i> 8,2             <span class='pull-right'>
+                <i class='icon-upload'></i> 30 January 2014  - 03:08             </span>
+             </small>
+             <br />
+             <hr />
+             Percy Nilegaard has gone insane and goes to a shrink called Dr J. Tull. He tells the doctor the story of how he took over another mans life, Janne Fuglesang&amp;#039;s. At the same time in Norrland, Kapten Klaenning is making his team of aeronauts rea...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152e9b3a0a6925.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/almost-human/"  data-rel="popover" title="Almost Human" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 192 <span class='seperator'></span> <i class='icon-star'></i> 8,4             <span class='pull-right'>
+                <i class='icon-upload'></i> 28 January 2014  - 18:20             </span>
+             </small>
+             <br />
+             <hr />
+             In a not-so-distant future, human cops and androids partner up to protect and serve.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2654580.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/video-game-high-school/"  data-rel="popover" title="Video Game High School" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 248 <span class='seperator'></span> <i class='icon-star'></i> 7,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 27 January 2014  - 11:48             </span>
+             </small>
+             <br />
+             <hr />
+             The story is about a down on his luck, young aspiring gamer. He has no friends. His cat hates him. His name is Brian. He loves playing video games. One day during a public match the number one gamer the &quot;Law&quot; arrives to do a little bit of showing ...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2170584.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/pistvakt-en-vintersaga/"  data-rel="popover" title="Pistvakt - en vintersaga" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 773 <span class='seperator'></span> <i class='icon-star'></i> 7,3             <span class='pull-right'>
+                <i class='icon-upload'></i> 27 January 2014  - 08:54             </span>
+             </small>
+             <br />
+             <hr />
+             En g&amp;aring;ng f&amp;ouml;r l&amp;auml;nge sedan kom de f&amp;ouml;rsta bes&amp;ouml;karna till Svartlien, den m&amp;ouml;rkaste pistade bj&amp;ouml;rnh&amp;aring;lan och k&amp;ouml;ldh&amp;aring;let i Norden. De kom f&amp;ouml;r sk&amp;ouml;nheten. De kom f&amp;ouml;r &amp;auml;ventyret och faran. ...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152e60f3bebcba.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/hem-till-midgard/"  data-rel="popover" title="Hem till midgård" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 384 <span class='seperator'></span> <i class='icon-star'></i> 7,8             <span class='pull-right'>
+                <i class='icon-upload'></i> 27 January 2014  - 08:39             </span>
+             </small>
+             <br />
+             <hr />
+             Hem till Midg&amp;aring;rd &amp;auml;r en brutal komediserie som tar dig tillbaka till den gamla vikingatiden och byn Midg&amp;aring;rd, det sista asaf&amp;auml;stet i Svea Rike. H&amp;auml;r hittar du den sanna historien om hur det verkligen gick till p&amp;aring; vikin...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152e60bc31fb7e.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/pretty-little-liars/"  data-rel="popover" title="Pretty Little Liars" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 572 <span class='seperator'></span> <i class='icon-star'></i> 8,1             <span class='pull-right'>
+                <i class='icon-upload'></i> 26 January 2014  - 23:33             </span>
+             </small>
+             <br />
+             <hr />
+             A clique of teenage girls drift apart after the group&amp;#039;s leader, Alison DiLaurentis, goes missing. Her body is found and the girls are reunited at her funeral. All four begin receiving text messages from the mysterious &amp;#039;A&amp;#039;, who seems...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1578873.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/band-of-brothers/"  data-rel="popover" title="Band of Brothers" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 534 <span class='seperator'></span> <i class='icon-star'></i> 9,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 24 January 2014  - 00:56             </span>
+             </small>
+             <br />
+             <hr />
+             This is the story of &quot;E&quot; Easy Company, 506th Regiment of the 101st Airborne Division from their initial training starting in 1942 to the end of World War II. They parachuted behind enemy lines in the early hours of D-Day in support of the landings...             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/0185906.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/seinfeld/"  data-rel="popover" title="Seinfeld" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 235 <span class='seperator'></span> <i class='icon-star'></i> 9,0             <span class='pull-right'>
+                <i class='icon-upload'></i> 21 January 2014  - 23:01             </span>
+             </small>
+             <br />
+             <hr />
+             Jerry Seinfeld stars in this television comedy series as himself, a comedian. The premise of this sitcom is Jerry and his friends going through everyday life, discussing various quirky situations that we can all relate to (especially if we live in...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0098904.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/nilecity-1056/"  data-rel="popover" title="NileCity 105.6" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 755 <span class='seperator'></span> <i class='icon-star'></i> 8,7             <span class='pull-right'>
+                <i class='icon-upload'></i> 20 January 2014  - 17:42             </span>
+             </small>
+             <br />
+             <hr />
+             Percy Nileg&amp;aring;rd has gotten in to the commercial radio business. The radio station rents premises of the fire station and its chief, the self willed Greger who&amp;#039;s in charge of six well built firemen. One of them gets a presentation first i...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152dc3f0b635e6.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/pippi-langstrump/"  data-rel="popover" title="Pippi Långstrump" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 708 <span class='seperator'></span> <i class='icon-star'></i> 7,3             <span class='pull-right'>
+                <i class='icon-upload'></i> 19 January 2014  - 20:30             </span>
+             </small>
+             <br />
+             <hr />
+             The adventures of Pippi Longstocking, an eccentric, super-strong, redheaded moppet, and her best friends Tommy and Annika, based upon the famous books by Astrid Lindgren.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0062598.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/planet-earth/"  data-rel="popover" title="Planet Earth" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 293 <span class='seperator'></span> <i class='icon-star'></i> 9,5             <span class='pull-right'>
+                <i class='icon-upload'></i> 19 January 2014  - 15:26             </span>
+             </small>
+             <br />
+             <hr />
+             Each 50 minute episode features a global overview of a different biome or habitat on Earth (Polar, Mountain, Cave, Desert, Plains, Fresh Water, Seas, Ocean, Forest), followed by a ten-minute featurette which takes a behind-the-scenes look at the c...             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/0795176.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/brutal-tv/"  data-rel="popover" title="Hemliga Svenska Rum" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 952 <span class='seperator'></span> <i class='icon-star'></i> --             <span class='pull-right'>
+                <i class='icon-upload'></i> 19 January 2014  - 10:43             </span>
+             </small>
+             <br />
+             <hr />
+             Svensk dokument&amp;auml;r d&amp;auml;r programledaren Melker Becker tillsammans med Kalle Nordberg &amp;aring;ker runt till hemliga st&amp;auml;llen i Sverige och tittar p&amp;aring; dessa st&amp;auml;llen, och dessutom pratar en expert i varje avsnitt om hur dessa st&amp;a...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152db964f2bfc2.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/ben-and-kate/"  data-rel="popover" title="Ben and Kate" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 942 <span class='seperator'></span> <i class='icon-star'></i> 6,6             <span class='pull-right'>
+                <i class='icon-upload'></i> 18 January 2014  - 21:10             </span>
+             </small>
+             <br />
+             <hr />
+             A free-spirited young guy moves in with his type-A, tightly wound sister under the guise of being his niece&amp;#039;s nanny.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2177491.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/vikings/"  data-rel="popover" title="Vikings" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 3 322 <span class='seperator'></span> <i class='icon-star'></i> 8,5             <span class='pull-right'>
+                <i class='icon-upload'></i> 18 January 2014  - 20:04             </span>
+             </small>
+             <br />
+             <hr />
+             Vikings follows the adventures of Ragnar Lothbrok: the greatest hero of his age. The series tells the saga of Ragnar&amp;#039;s band of Viking brothers and his family as he rises to become King of the Viking tribes. As well as being a fearless warrior...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2306299.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/mysteriet-pa-greveholm/"  data-rel="popover" title="Mysteriet på Greveholm" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 328 <span class='seperator'></span> <i class='icon-star'></i> 8,5             <span class='pull-right'>
+                <i class='icon-upload'></i> 18 January 2014  - 04:13             </span>
+             </small>
+             <br />
+             <hr />
+             The father of the Olsson family is responsible for many people&amp;#039;s not being able to receive any TV broadcasts. Therefore, the family escape to an old castle in the country, to celebrate their Christmas there, away from all angry people and dan...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/152d9d79e4ea16.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/community/"  data-rel="popover" title="Community" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 677 <span class='seperator'></span> <i class='icon-star'></i> 8,7             <span class='pull-right'>
+                <i class='icon-upload'></i> 12 January 2014  - 18:03             </span>
+             </small>
+             <br />
+             <hr />
+             A lawyer is scuppered when it is discovered that he has falsely claimed to have a bachelor&amp;#039;s degree. He is suspended and enrolls himself into Community college. He forms a study group so that he can get closer to an attractive student. The st...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1439629.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/the-millers/"  data-rel="popover" title="The Millers" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 380 <span class='seperator'></span> <i class='icon-star'></i> 6,0             <span class='pull-right'>
+                <i class='icon-upload'></i> 12 January 2014  - 12:20             </span>
+             </small>
+             <br />
+             <hr />
+             A divorced reporter, looking forward to the single life, finds his parents&amp;#039; marital problems derail his plans.             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/2737290.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/dexter/"  data-rel="popover" title="Dexter" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 696 <span class='seperator'></span> <i class='icon-star'></i> 9,0             <span class='pull-right'>
+                <i class='icon-upload'></i> 11 January 2014  - 16:57             </span>
+             </small>
+             <br />
+             <hr />
+             Meet Dexter Morgan. By day he&amp;#039;s a blood spatter pattern expert for the Miami Metro police department. But by night - he takes on an entirely different persona: serial killer. But Dexter isn&amp;#039;t your average serial killer as he only kills p...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0773262.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/beautiful-creatures/"  data-rel="popover" title="Beautiful Creatures" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 789 <span class='seperator'></span> <i class='icon-star'></i> 6,1             <span class='pull-right'>
+                <i class='icon-upload'></i> 11 January 2014  - 16:13             </span>
+             </small>
+             <br />
+             <hr />
+             Teenager Ethan Wate is obsessed with his urge to finish high school and go on to college in order to leave behind the small town of Gatlin, South Carolina behind, until a mysterious girl begins to inhabit his dreams. When he meets Lena Duchannes, ...             ">
+            <div class="item-languages">
+                <img src='images/flags/se.png' data-rel='tooltip' data-placement='bottom' title='Subtitle'>            </div>
+            <img class="poster" src="cache/posters/1559547.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/merlin/"  data-rel="popover" title="Merlin" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 964 <span class='seperator'></span> <i class='icon-star'></i> 7,7             <span class='pull-right'>
+                <i class='icon-upload'></i> 25 December 2013  - 21:26             </span>
+             </small>
+             <br />
+             <hr />
+             Young Merlin is a teenager, discovering and then learning to master his magical gift. Magister Gaius, King Uther Pendragon&amp;#039;s learned court physician to whom he&amp;#039;s assigned as humble page, teaches him medicine, coaches his magical self-stu...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1199099.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/the-simpsons/"  data-rel="popover" title="The Simpsons" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 681 <span class='seperator'></span> <i class='icon-star'></i> 8,9             <span class='pull-right'>
+                <i class='icon-upload'></i> 16 December 2013  - 16:09             </span>
+             </small>
+             <br />
+             <hr />
+             The Simpsons is an animated sitcom about the antics of a dysfunctional family called the Simpsons (surprise surprise). Homer is the oafish unhealthy beer loving father, Marge is the hardworking homemaker wife, Bart is the ten year old underachieve...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0096697.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/family-guy/"  data-rel="popover" title="Family Guy" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 2 690 <span class='seperator'></span> <i class='icon-star'></i> 8,4             <span class='pull-right'>
+                <i class='icon-upload'></i> 16 December 2013  - 15:32             </span>
+             </small>
+             <br />
+             <hr />
+             The Griffin household includes two teenagers, a cynical dog who is smarter than everyone else, and an evil baby who makes numerous attempts to eradicate his mother. Heading up this eclectic household is Peter Griffin. Peter does his best to do wha...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/0182576.jpg" class="img-responsive"/>
+        </div>
+            <div class="item-poster col-md-2 align-center" data-href="http://tfplay.org/media/view/sons-of-anarchy/"  data-rel="popover" title="Sons of Anarchy" data-container="body" data-toggle="popover" data-placement="top"
+             data-content="
+             <small>
+             <i class='icon-eye-open'></i> 1 530 <span class='seperator'></span> <i class='icon-star'></i> 8,7             <span class='pull-right'>
+                <i class='icon-upload'></i> 12 December 2013  - 23:36             </span>
+             </small>
+             <br />
+             <hr />
+             Sons of Anarchy, aka SAMCRO, is a motorcycle club that operates both illegal and legal businesses in the small town of Charming. They combine gun-running and a garage, plus involvement in porn film. Clay, the president, likes it old school and vio...             ">
+            <div class="item-languages">
+                            </div>
+            <img class="poster" src="cache/posters/1124373.jpg" class="img-responsive"/>
+        </div>
+    </div>
+</div>
+
+
+<div class="navbar navbar-default footer">
+    <div class="container">
+        <div class="navbar-text">
+            <a href="http://tfplay.org/">TFPlay</a> is a member of the Tankafetast imperium
+        </div>
+        <div class="navbar-text navbar-right">
+            <iframe width="1000px" height="1000px" frameborder="0" allowtransparency="true" scrolling="no" title="fb:like Facebook Social Plugin" src="http://www.facebook.com/plugins/like.php?action=like&amp;app_id=&amp;channel=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D40%23cb%3Df147923478%26domain%3Dtfplay.org%26origin%3Dhttp%253A%252F%252Ftfplay.org%252Ff1e086f14%26relation%3Dparent.parent&amp;color_scheme=light&amp;href=https%3A%2F%2Fwww.facebook.com%2Ftfplay.official&amp;layout=standard&amp;locale=sv_SE&amp;sdk=joey&amp;share=false&amp;show_faces=false" class="" style="border: none; visibility: visible; width: 450px; height: 20px;"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var _script = document.createElement('script');
+        _script.type = 'text/javascript';
+        _script.async = true;
+        _script.src = 'http://3c41ddc0.se/?placement=400312&async';
+
+        _script.onload = _script.onreadystatechange = function () {
+            var rs = this.readyState;
+            if (this.readyState && this.readyState != 'complete' && this.readyState != 'loaded')
+                return;
+
+            if (typeof load_ad_400312 == 'function')
+                load_ad_400312(_script);
+
+        };
+
+        var _s = document.getElementsByTagName('script')[0];
+        _s.parentNode.insertBefore(_script, _s)
+    })();
+</script>
+
+</body>
+</html>
