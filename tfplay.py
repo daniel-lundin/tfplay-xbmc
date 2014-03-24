@@ -93,7 +93,7 @@ class TFPlay(object):
         item_poster_start = html.find('<div class="item-poster')
         items = []
         while item_poster_start != -1:
-            data_href_start = html.find('data-href', item_poster_start) + 12
+            data_href_start = html.find('data-href', item_poster_start) + 11
             data_href_end = html.find('"', data_href_start)
             url = html[data_href_start:data_href_end]
             title_start = html.find("title", item_poster_start) + 7
