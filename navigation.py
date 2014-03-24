@@ -1,4 +1,5 @@
 import urllib
+import time
 
 
 class Navigation(object):
@@ -52,7 +53,7 @@ class Navigation(object):
         action_url = self.plugin_url + Navigation.encode_parameters(params)
         list_item = self.xbmcgui.ListItem(caption)
         if thumb_url:
-            list_item.setThumbnailImage(thumb_url)
+            list_item.setThumbnailImage('http://tfplay.org/' + thumb_url)
         return self.xbmcplugin.addDirectoryItem(handle=self.handle,
                                                 url=action_url,
                                                 listitem=list_item,
@@ -98,6 +99,7 @@ class Navigation(object):
         self.add_menu_item('Newest movies', {'action': 'newest_movies'})
         self.add_menu_item('Newest series', {'action': 'newest_series'})
         self.add_menu_item('Newest for kids', {'action': 'newest_for_kids'})
+        self.add_menu_item('Browse TV-series', {'action': 'tvseries'})
         return self.xbmcplugin.endOfDirectory(self.handle)
 
     def search(self):
@@ -127,23 +129,50 @@ class Navigation(object):
     def list_newest_for_kids(self):
         self.list_movie_items(self.tf.list_newest_for_kids())
 
+    def list_tv_series(self):
+        self.list_movie_items(self.tf.list_tv_series())
+
     def open_item(self, title, url):
         html = self.tf._get(url)
         if self.tf.is_serie(html):
             return self.list_seasons(title, url, html)
         player_url = self.tf.parse_movie_page(html)
-        stream_url = self.tf.parse_player_page(self.tf._get(player_url))
-        return self.play_stream(title, stream_url)
+        stream_url, subtitles = self.tf.parse_player_page(self.tf._get(player_url))
 
-    def play_stream(self, title, stream):
+        return self.play_stream(title, stream_url, subtitles)
+
+    def play_stream(self, title, stream, subtitles):
         li = self.xbmcgui.ListItem(label=title, path=stream)
         li.setInfo(type='Video', infoLabels={"Title": title})
-        return self.xbmc.Player().play(item=stream, listitem=li)
+
+        selected_subtitle_url = None
+        if subtitles:
+            subtitle_dialog = self.xbmcgui.Dialog()
+            subs = [s.label for s in subtitles]
+            answer = subtitle_dialog.select("Subtitle select", subs)
+            if answer != -1:
+                selected_subtitle_url = subtitles[answer].url
+
+        player = self.xbmc.Player()
+        player.play(item=stream, listitem=li)
+
+        if selected_subtitle_url:
+            while not player.isPlaying():
+                self.xbmc.log('Not playing...', self.xbmc.LOGERROR)
+                time.sleep(0.5)
+            self.xbmc.log('Enabling subtitles', self.xbmc.LOGERROR)
+            player.setSubtitles(selected_subtitle_url)
+            player.showSubtitles(True)
+        # This is just for the offline runner
+        try:
+            return self.xbmc.BACK
+        except:
+            pass
 
     def play_episode(self, title, season_number, episode_number, episode_url):
         html = self.tf._get(episode_url)
-        stream = self.tf.parse_player_page(html)
-        return self.play_stream(title, stream)
+        stream, subtitles = self.tf.parse_player_page(html)
+        return self.play_stream(title, stream, subtitles)
 
     def list_seasons(self, title, url, html):
         seasons = self.tf.parse_serie_page(html)
@@ -157,7 +186,8 @@ class Navigation(object):
         season_name, episodes = serie_info[season_number]
         for epi_idx, epi_info in enumerate(episodes):
             epi_name, epi_url = epi_info
-            self.add_episode_list_item(title, season_number, epi_idx, epi_name, epi_url)
+            self.add_episode_list_item(title, season_number,
+                                       epi_idx, epi_name, epi_url)
         return self.xbmcplugin.endOfDirectory(self.handle)
 
     def dispatch(self):
@@ -175,6 +205,8 @@ class Navigation(object):
                 return self.list_newest_series()
             if action == 'newest_for_kids':
                 return self.list_newest_for_kids()
+            if action == 'tvseries':
+                return self.list_tv_series()
             if action == 'open_item':
                 return self.open_item(self.params['title'],
                                       self.params['item_url'])
