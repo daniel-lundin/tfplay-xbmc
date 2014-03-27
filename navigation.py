@@ -43,17 +43,19 @@ class Navigation(object):
                                                 listitem=list_item,
                                                 isFolder=True)
 
-    def add_movie_list_item(self, caption, url, thumb_url=None):
+    def add_movie_list_item(self, item):
         params = {
             'action': 'open_item',
-            'title': caption,
-            'item_url': url,
+            'title': item.title,
+            'item_url': item.url,
         }
         is_folder = True
         action_url = self.plugin_url + Navigation.encode_parameters(params)
+        caption = item.title
+        if item.has_subs:
+            caption += ' (with subtitles)'
         list_item = self.xbmcgui.ListItem(caption)
-        if thumb_url:
-            list_item.setThumbnailImage('http://tfplay.org/' + thumb_url)
+        list_item.setThumbnailImage('http://tfplay.org/' + item.thumb_url)
         return self.xbmcplugin.addDirectoryItem(handle=self.handle,
                                                 url=action_url,
                                                 listitem=list_item,
@@ -100,6 +102,7 @@ class Navigation(object):
         self.add_menu_item('Newest series', {'action': 'newest_series'})
         self.add_menu_item('Newest for kids', {'action': 'newest_for_kids'})
         self.add_menu_item('Browse TV-series', {'action': 'tvseries'})
+        self.add_menu_item('Genres', {'action': 'list_genres'})
         return self.xbmcplugin.endOfDirectory(self.handle)
 
     def search(self):
@@ -107,14 +110,14 @@ class Navigation(object):
         kb.doModal()
         if kb.isConfirmed():
             text = kb.getText()
-            matches = self.tf.search(text)
-            for m in matches:
-                self.add_movie_list_item(m[0], m[1])
+            items = self.tf.search(text)
+            for item in items:
+                self.add_movie_list_item(item)
             return self.xbmcplugin.endOfDirectory(self.handle)
 
     def list_movie_items(self, items):
         for item in items:
-            self.add_movie_list_item(item.title, item.url, item.thumb_url)
+            self.add_movie_list_item(item)
         return self.xbmcplugin.endOfDirectory(self.handle)
 
     def list_popular_movies(self):
@@ -131,6 +134,17 @@ class Navigation(object):
 
     def list_tv_series(self):
         self.list_movie_items(self.tf.list_tv_series())
+
+    def list_genres(self):
+        for url, name in self.tf.list_genres():
+            self.add_menu_item(name, {'action': 'list_genre', 'genre_url': url})
+        return self.xbmcplugin.endOfDirectory(self.handle)
+
+    def list_genre(self, genre_url):
+        items = self.tf.list_genre(genre_url)
+        for item in items:
+            self.add_movie_list_item(item)
+        return self.xbmcplugin.endOfDirectory(self.handle)
 
     def open_item(self, title, url):
         html = self.tf._get(url)
@@ -207,6 +221,10 @@ class Navigation(object):
                 return self.list_newest_for_kids()
             if action == 'tvseries':
                 return self.list_tv_series()
+            if action == 'list_genres':
+                return self.list_genres()
+            if action == 'list_genre':
+                return self.list_genre(self.params['genre_url'])
             if action == 'open_item':
                 return self.open_item(self.params['title'],
                                       self.params['item_url'])

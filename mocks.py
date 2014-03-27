@@ -23,9 +23,22 @@ class Xbmc(object):
         pass
 
     class Player(object):
+        def __init__(self):
+            self.is_playing = False
+
         def play(self, *args, **kwargs):
+            self.is_playing = True
             print 'playing stream %s (%s)'  % (kwargs['listitem'].infoLabels['Title'], kwargs['item'])
             return Xbmc.BACK
+
+        def isPlaying(self):
+            return self.is_playing
+
+        def setSubtitles(self, sub_url):
+            pass
+
+        def showSubtitles(self, show):
+            pass
 
     LOGERROR = 'ERROR'
     LOGNOTICE = 'NOTICE'

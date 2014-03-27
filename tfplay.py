@@ -5,13 +5,42 @@ SEARCH_URL = 'http://tfplay.org/search/'
 STARTPAGE_URL = 'http://tfplay.org/'
 TVSERIES_URL = 'http://tfplay.org/media/tv-series/'
 
-MovieItem = namedtuple('MovieItem', ['title', 'url', 'thumb_url'])
+MovieItem = namedtuple('MovieItem', ['title', 'url', 'thumb_url', 'has_subs'])
 StartPage = namedtuple('StartPage', ['popular_movies',
                                      'newest_movies',
                                      'newest_series',
                                      'newest_for_kids'])
 
 Subtitle = namedtuple('Subtitle', ['url', 'label'])
+
+GENRES = [
+    ("http://tfplay.org/media/genre/action/", "Action"),
+    ("http://tfplay.org/media/genre/adventure/", "Adventure"),
+    ("http://tfplay.org/media/genre/animation/", "Animation"),
+    ("http://tfplay.org/media/genre/biography/", "Biography"),
+    ("http://tfplay.org/media/genre/comedy/", "Comedy"),
+    ("http://tfplay.org/media/genre/crime/", "Crime"),
+    ("http://tfplay.org/media/genre/documentary/", "Documentary"),
+    ("http://tfplay.org/media/genre/drama/", "Drama"),
+    ("http://tfplay.org/media/genre/family/", "Family"),
+    ("http://tfplay.org/media/genre/fantasy/", "Fantasy"),
+    ("http://tfplay.org/media/genre/film-noir/", "Film-Noir"),
+    ("http://tfplay.org/media/genre/game-show/", "Game-Show"),
+    ("http://tfplay.org/media/genre/history/", "History"),
+    ("http://tfplay.org/media/genre/horror/", "Horror"),
+    ("http://tfplay.org/media/genre/music/", "Music"),
+    ("http://tfplay.org/media/genre/musical/", "Musical"),
+    ("http://tfplay.org/media/genre/mystery/", "Mystery"),
+    ("http://tfplay.org/media/genre/reality-tv/", "Reality-TV"),
+    ("http://tfplay.org/media/genre/romance/", "Romance"),
+    ("http://tfplay.org/media/genre/sci-fi/", "Sci-Fi"),
+    ("http://tfplay.org/media/genre/short/", "Short"),
+    ("http://tfplay.org/media/genre/sport/", "Sport"),
+    ("http://tfplay.org/media/genre/talk-show/", "Talk-Show"),
+    ("http://tfplay.org/media/genre/thriller/", "Thriller"),
+    ("http://tfplay.org/media/genre/war/", "War"),
+    ("http://tfplay.org/media/genre/western/", "Western")
+]
 
 
 class TFPlay(object):
@@ -36,6 +65,13 @@ class TFPlay(object):
     def is_serie(self, html):
         return 'Season 1' in html
 
+    def list_genres(self):
+        return GENRES
+
+    def list_genre(self, genre_url):
+        html = self._get(genre_url)
+        return self.parse_item_poster_list(html)
+
     def list_popular_movies(self):
         return self.parse_start_page(self._startpage()).popular_movies
 
@@ -52,19 +88,7 @@ class TFPlay(object):
         return self.parse_series_list(self._tvseries())
 
     def parse_search(self, html):
-        RES = '<div class="item-poster'
-        r_idx = html.find(RES)
-        matches = []
-        while r_idx != -1:
-            url_start = html.find('data-href="', r_idx) + 11
-            url_end = html.find('"', url_start)
-            url = html[url_start: url_end]
-            title_start = html.find('title="', url_end) + 7
-            title_end = html.find('"', title_start)
-            title = html[title_start:title_end]
-            matches.append((title, url))
-            r_idx = html.find(RES, r_idx + 1)
-        return matches
+        return self.parse_item_poster_list(html)
 
     def parse_video_list(self, html):
         item_start = html.find('<div class="item"')
@@ -76,20 +100,16 @@ class TFPlay(object):
             a_end = html.find('"', a_start)
             thumb_start = html.find('<img src="', a_start) + 10
             thumb_end = html.find('"', thumb_start)
-            items.append(MovieItem(html[title_start:title_end],
-                                   html[a_start:a_end],
-                                   html[thumb_start:thumb_end]))
+            lang_start = html.find('<div class="item-languages">', item_start)
+            lang_end = html.find('</div>', lang_start)
+            has_subs = lang_start < html.find('<img src', lang_start) < lang_end
+            items.append(MovieItem(title=html[title_start:title_end],
+                                   url=html[a_start:a_end],
+                                   thumb_url=html[thumb_start:thumb_end],
+                                   has_subs=has_subs))
             item_start = html.find('<div class="item"', item_start + 1)
         return items
-
-    def parse_start_page(self, html):
-        parts = html.split('videos-list')
-        return StartPage(self.parse_video_list(parts[1]),
-                         self.parse_video_list(parts[2]),
-                         self.parse_video_list(parts[3]),
-                         self.parse_video_list(parts[4]))
-
-    def parse_series_list(self, html):
+    def parse_item_poster_list(self, html):
         item_poster_start = html.find('<div class="item-poster')
         items = []
         while item_poster_start != -1:
@@ -102,9 +122,24 @@ class TFPlay(object):
             img_start = html.find('<img class="poster" src="', item_poster_start) + 25
             img_end = html.find('"', img_start)
             thumb_url = html[img_start:img_end]
-            items.append(MovieItem(title, url, thumb_url))
+
+            lang_start = html.find('<div class="item-languages">', item_poster_start)
+            lang_end = html.find('</div>', lang_start)
+            has_subs = lang_start < html.find('<img src', lang_start) < lang_end
+
+            items.append(MovieItem(title, url, thumb_url, has_subs))
             item_poster_start = html.find('<div class="item-poster', item_poster_start+1)
         return items
+
+    def parse_start_page(self, html):
+        parts = html.split('videos-list')
+        return StartPage(self.parse_video_list(parts[1]),
+                         self.parse_video_list(parts[2]),
+                         self.parse_video_list(parts[3]),
+                         self.parse_video_list(parts[4]))
+
+    def parse_series_list(self, html):
+        return self.parse_item_poster_list(html)
 
     def parse_movie_page(self, html):
         LINK = '<a href="http://tfplay.org/media/play/'
