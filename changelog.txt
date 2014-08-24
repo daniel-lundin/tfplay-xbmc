@@ -5,3 +5,8 @@ Initial version
 version 0.0.2
 =============
 Show if items have subtitles
+
+version 0.0.3
+=============
+Basic version working with the new site
+No subtitles and some titles not working
