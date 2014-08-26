@@ -10,3 +10,9 @@ version 0.0.3
 =============
 Basic version working with the new site
 No subtitles and some titles not working
+
+version 0.0.4
+=============
+Subtitles working
+Just for kids, movies and series section
+

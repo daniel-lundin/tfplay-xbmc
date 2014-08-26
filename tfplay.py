@@ -2,9 +2,9 @@ import urllib2
 from collections import namedtuple
 import json
 
-MovieItem = namedtuple('MovieItem', ['title', 'poster', 'video_url', 'is_serie'])
+MovieItem = namedtuple('MovieItem', ['title', 'poster', 'video_url', 'subtitles', 'is_serie'])
 SerieItem = namedtuple('SerieItem', ['title', 'seasons'])
-EpisodeItem = namedtuple('EpisodeItem', ['video_url', 'poster', 'episode'])
+EpisodeItem = namedtuple('EpisodeItem', ['video_url', 'poster', 'episode', 'subtitles'])
 
 GENRES = [
     "Action",
@@ -42,21 +42,16 @@ class TFPlay(object):
         content = urllib2.urlopen(url=url).read()
         return content
 
-    def _api_url(self, q=None, genre=None, limit=None):
+    def _api_url(self, **kwargs):
         url = 'http://tfplay.org/api/v2/?'
         params = []
-        if q:
-            params.append(("q", q))
-        if genre:
-            params.append(("genre", genre))
-        if limit:
-            params.append(("limit", limit))
+        for key in kwargs:
+            params.append((key, kwargs[key]))
         url += "&".join([("%s=%s" % (a,b)) for a, b in params])
         return url
 
-    def _api_query(self, q=None, genre=None, limit=None):
-        # Filter out the nones
-        url = self._api_url(q, genre, limit)
+    def _api_query(self, **kwargs):
+        url = self._api_url(**kwargs)
 
         content = urllib2.urlopen(url=url).read()
         return content
@@ -69,20 +64,29 @@ class TFPlay(object):
             if d['title'] in titles:
                 continue
             is_serie = int('season' in d)
-            items.append(MovieItem(d['title'], d['poster'], d['video'], is_serie))
+            items.append(MovieItem(d['title'], d['poster'], d['video'], d['subtitles'], is_serie))
             titles.append(d['title'])
         return items
 
     def search(self, search_string):
-        return self._parse_result_list(self._api_query(q=search_string))
+        return self._parse_result_list(self._api_query(q=search_string, limit=20))
 
-    def list_genres(self):
+    def just_for_kids(self):
+        return self._parse_result_list(self._api_query(kids='true', limit=50))
+
+    def movies(self):
+        return self._parse_result_list(self._api_query(movies='true', limit=50))
+
+    def series(self):
+        return self._parse_result_list(self._api_query(series='true'))
+
+    def genres(self):
         return GENRES
 
-    def list_genre(self, genre):
-        return self._parse_result_list(self._api_query(q=None, genre=genre, limit=100))
+    def genre(self, genre):
+        return self._parse_result_list(self._api_query(genre=genre, limit=100))
 
-    def list_serie(self, serie_name):
+    def serie(self, serie_name):
         data = json.loads(self._api_query(q=serie_name))
         serie = None
         for d in data:
@@ -95,7 +99,7 @@ class TFPlay(object):
                 serie = SerieItem(d['title'], {})
             if season_nr not in serie.seasons:
                 serie.seasons[season_nr] = []
-            episode = EpisodeItem(d['video'], d['poster'], int(d['episode']))
+            episode = EpisodeItem(d['video'], d['poster'], int(d['episode']), d['subtitles'])
             serie.seasons[season_nr].append(episode)
         # Sort episodes
         for s in serie.seasons:
@@ -105,4 +109,7 @@ class TFPlay(object):
 
 if __name__ == '__main__':
     tf = TFPlay()
-    print tf.search('bad')
+    #print tf.search('bad')
+    print tf._api_url(q='balla')
+    print tf._api_url(q='balla', limit='10')
+    print tf._api_url(q='balla', limit='10', kids='true')

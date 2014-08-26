@@ -19,7 +19,11 @@ class Navigation(object):
 
     @staticmethod
     def encode_parameters(params):
-        return '?' + urllib.urlencode(params)
+        quoted_params = []
+        for key in params:
+            value = str(params[key])
+            quoted_params.append((urllib.quote(key), urllib.quote(value)))
+        return "?" + "&".join(["%s=%s" % (a, b) for a, b in quoted_params])
 
     @staticmethod
     def decode_parameters(parameters):
@@ -50,6 +54,7 @@ class Navigation(object):
             'title': item.title,
             'video_url': item.video_url,
             'is_serie': item.is_serie,
+            'subtitles': json.dumps(item.subtitles)
         }
         is_folder = True
         try:
@@ -60,10 +65,10 @@ class Navigation(object):
             return
 
         caption = item.title
-        ##if item.has_subs:
-        ##    caption += ' (with subtitles)'
+        if len(item.subtitles.keys()):
+            caption += ' (with subtitles)'
         list_item = self.xbmcgui.ListItem(caption)
-        list_item.setThumbnailImage('http://tfplay.org/' + item.poster)
+        list_item.setThumbnailImage(item.poster)
         return self.xbmcplugin.addDirectoryItem(handle=self.handle,
                                                 url=action_url,
                                                 listitem=list_item,
@@ -71,7 +76,7 @@ class Navigation(object):
 
     def add_season_list_item(self, title, season_number):
         params = {
-            'action': 'list_episodes',
+            'action': 'episodes',
             'season_number': season_number,
             'title': title
         }
@@ -85,13 +90,14 @@ class Navigation(object):
                                                 isFolder=True)
 
     def add_episode_list_item(self, title, season_number,
-                              episode_index, episode_name, episode_url):
+                              episode_index, episode_name, episode_url, subtitles):
         params = {
             'action': 'play_episode',
             'title': title,
             'season_number': season_number,
             'episode_number': episode_index,
-            'episode_url': episode_url
+            'episode_url': episode_url,
+            'subtitles': json.dumps(subtitles)
         }
 
         name = '%s S%dE%d' % (title, season_number, episode_name)
@@ -105,6 +111,9 @@ class Navigation(object):
 
     def build_main_menu(self):
         self.add_menu_item('Search', {'action': 'search'})
+        self.add_menu_item('Movies', {'action': 'movies'})
+        self.add_menu_item('Series', {'action': 'series'})
+        self.add_menu_item('Just for kids', {'action': 'just_for_kids'})
         self.add_menu_item('Genres', {'action': 'list_genres'})
         return self.xbmcplugin.endOfDirectory(self.handle)
 
@@ -118,85 +127,90 @@ class Navigation(object):
                 self.add_movie_list_item(item)
             return self.xbmcplugin.endOfDirectory(self.handle)
 
-    def list_movie_items(self, items):
-        for item in items:
+    def just_for_kids(self):
+        for item in self.tf.just_for_kids():
             self.add_movie_list_item(item)
         return self.xbmcplugin.endOfDirectory(self.handle)
 
-    def list_genres(self):
-        for genre in self.tf.list_genres():
+    def movies(self):
+        for item in self.tf.movies():
+            self.add_movie_list_item(item)
+        return self.xbmcplugin.endOfDirectory(self.handle)
+
+    def series(self):
+        for item in self.tf.series():
+            self.add_movie_list_item(item)
+        return self.xbmcplugin.endOfDirectory(self.handle)
+
+    def genres(self):
+        for genre in self.tf.genres():
             self.add_menu_item(genre, {'action': 'list_genre', 'genre': genre})
         return self.xbmcplugin.endOfDirectory(self.handle)
 
-    def list_genre(self, genre):
-        items = self.tf.list_genre(genre)
+    def genre(self, genre):
+        items = self.tf.genre(genre)
         for item in items:
-            self.add_movie_list_item(item)
+            self.add_movie_item(item)
         return self.xbmcplugin.endOfDirectory(self.handle)
 
-    def open_item(self, title, url, is_serie):
+    def seasons(self, title, url, html):
+        seasons = self.tf.parse_serie_page(html)
+        for idx, s in enumerate(seasons):
+            self.add_season_list_item(title, idx, url)
+        return self.xbmcplugin.endOfDirectory(self.handle)
+
+    def episodes(self, title, season_number):
+        serie = self.tf.serie(title)
+
+        for idx, e in enumerate(serie.seasons[season_number]):
+            #epi_name, epi_url = epi_info
+            self.add_episode_list_item(title, season_number,
+                                       idx, e.episode, e.video_url, e.subtitles)
+        return self.xbmcplugin.endOfDirectory(self.handle)
+
+    def open_item(self, title, url, is_serie, subtitles):
         # TODO: check if serie
         if is_serie:
-            serie = self.tf.list_serie(title)
+            serie = self.tf.serie(title)
             for s in serie.seasons:
                 self.add_season_list_item(title, s)
             return self.xbmcplugin.endOfDirectory(self.handle)
-        return self.play_stream(title, url)
-        #html = self.tf._get(url)
-        #if self.tf.is_serie(html):
-        #    return self.list_seasons(title, url, html)
-        #player_url = self.tf.parse_movie_page(html)
-        #stream_url, subtitles = self.tf.parse_player_page(self.tf._get(player_url))
+        return self.play_stream(title, url, subtitles)
 
-        #return self.play_stream(title, stream_url, subtitles)
-
-    def play_stream(self, title, stream):#, subtitles):
+    def play_stream(self, title, stream, subtitles):
+        has_subtitles = len(subtitles.keys())
         li = self.xbmcgui.ListItem(label=title, path=stream)
         li.setInfo(type='Video', infoLabels={"Title": title})
 
-        #selected_subtitle_url = None
-        #if subtitles:
-        #    subtitle_dialog = self.xbmcgui.Dialog()
-        #    subs = [s.label for s in subtitles]
-        #    answer = subtitle_dialog.select("Subtitle select", subs)
-        #    if answer != -1:
-        #        selected_subtitle_url = subtitles[answer].url
+        selected_subtitle_url = None
+        if has_subtitles:
+            keys = subtitles.keys()
+            subtitle_dialog = self.xbmcgui.Dialog()
+            subs = [subtitles[x]['language'] for x in keys]
+            answer = subtitle_dialog.select("Subtitle select", subs)
+            if answer != -1:
+                selected_subtitle_url = subtitles[keys[answer]]['file']
 
         player = self.xbmc.Player()
         player.play(item=stream, listitem=li)
 
-        #if selected_subtitle_url:
-        #    while not player.isPlaying():
-        #        self.xbmc.log('Not playing...', self.xbmc.LOGERROR)
-        #        time.sleep(0.5)
-        #    self.xbmc.log('Enabling subtitles', self.xbmc.LOGERROR)
-        #    player.setSubtitles(selected_subtitle_url)
-        #    player.showSubtitles(True)
+        if selected_subtitle_url:
+            while not player.isPlaying():
+                self.xbmc.log('Not playing...', self.xbmc.LOGERROR)
+                time.sleep(0.5)
+            self.xbmc.log('Enabling subtitles', self.xbmc.LOGERROR)
+            player.setSubtitles(selected_subtitle_url)
+            player.showSubtitles(True)
         # This is just for the offline runner
         try:
             return self.xbmc.BACK
         except:
             pass
 
-    def play_episode(self, title, season_number, episode_index):
-        serie = self.tf.list_serie(title)
+    def play_episode(self, title, season_number, episode_index, subtitles):
+        serie = self.tf.serie(title)
         episode = serie.seasons[season_number][episode_index]
-        return self.play_stream(title, episode.video_url)
-
-    def list_seasons(self, title, url, html):
-        seasons = self.tf.parse_serie_page(html)
-        for idx, s in enumerate(seasons):
-            self.add_season_list_item(title, idx, url)
-        return self.xbmcplugin.endOfDirectory(self.handle)
-
-    def list_episodes(self, title, season_number):
-        serie = self.tf.list_serie(title)
-
-        for idx, e in enumerate(serie.seasons[season_number]):
-            #epi_name, epi_url = epi_info
-            self.add_episode_list_item(title, season_number,
-                                       idx, e.episode, e.video_url)
-        return self.xbmcplugin.endOfDirectory(self.handle)
+        return self.play_stream(title, episode.video_url, subtitles)
 
     def dispatch(self):
         if not self.params:
@@ -205,19 +219,27 @@ class Navigation(object):
             action = self.params['action']
             if action == 'search':
                 return self.search()
-            if action == 'list_genres':
-                return self.list_genres()
-            if action == 'list_genre':
-                return self.list_genre(self.params['genre'])
+            if action == 'just_for_kids':
+                return self.just_for_kids()
+            if action == 'movies':
+                return self.movies()
+            if action == 'series':
+                return self.series()
+            if action == 'genres':
+                return self.genres()
+            if action == 'genre':
+                return self.genre(self.params['genre'])
             if action == 'open_item':
                 return self.open_item(self.params['title'],
                                       self.params['video_url'],
-                                      int(self.params['is_serie']))
-            if action == 'list_episodes':
-                return self.list_episodes(self.params['title'],
+                                      int(self.params['is_serie']),
+                                      json.loads(self.params['subtitles']))
+            if action == 'episodes':
+                return self.episodes(self.params['title'],
                                           int(self.params['season_number']))
             if action == 'play_episode':
                 return self.play_episode(self.params['title'],
                                          int(self.params['season_number']),
-                                         int(self.params['episode_number']))
+                                         int(self.params['episode_number']),
+                                         json.loads(self.params['subtitles']))
 
