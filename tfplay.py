@@ -36,6 +36,8 @@ GENRES = [
     "Western"
 ]
 
+ITEMS_PER_PAGE = 30
+
 class TFPlay(object):
 
     def _get(self, url):
@@ -71,20 +73,24 @@ class TFPlay(object):
     def search(self, search_string):
         return self._parse_result_list(self._api_query(q=search_string, limit=20))
 
-    def just_for_kids(self):
-        return self._parse_result_list(self._api_query(kids='true', limit=50))
+    def list_just_for_kids(self, page=0):
+        limit = '%s,%s' % (page * ITEMS_PER_PAGE + 1, ITEMS_PER_PAGE)
+        return self._parse_result_list(self._api_query(kids='true', limit=limit))
 
-    def list_movies(self):
-        return self._parse_result_list(self._api_query(movies='true', limit=50))
+    def list_movies(self, page=0):
+        limit = '%s,%s' % (page * ITEMS_PER_PAGE + 1, ITEMS_PER_PAGE)
+        return self._parse_result_list(self._api_query(movies='true', limit=limit))
 
-    def list_series(self):
-        return self._parse_result_list(self._api_query(series='true', group='true', limit='50'))
+    def list_series(self, page=0):
+        limit = '%s,%s' % (page * ITEMS_PER_PAGE + 1, ITEMS_PER_PAGE)
+        return self._parse_result_list(self._api_query(series='true', group='true', limit=limit))
 
     def list_genres(self):
         return GENRES
 
-    def list_genre(self, genre):
-        return self._parse_result_list(self._api_query(genre=genre, limit=100))
+    def list_genre(self, genre, page=0):
+        limit = '%s,%s' % (page * ITEMS_PER_PAGE + 1, ITEMS_PER_PAGE)
+        return self._parse_result_list(self._api_query(genre=genre, limit=limit))
 
     def serie(self, serie_name):
         data = json.loads(self._api_query(q=serie_name), 'latin-1')

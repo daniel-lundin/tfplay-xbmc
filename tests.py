@@ -28,7 +28,7 @@ class Tests(unittest.TestCase):
             tf = tfplay.TFPlay()
             def mock(*args, **kwargs): return f.read()
             tf._api_query = mock
-            search_results = tf.genre('action')
+            search_results = tf.list_genre('action')
             self.assertEqual(len(search_results), 21, "Movie list")
 
     def test_serie_list(self):
