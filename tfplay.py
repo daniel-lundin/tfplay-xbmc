@@ -57,7 +57,7 @@ class TFPlay(object):
         return content
 
     def _parse_result_list(self, result):
-        data = json.loads(result)
+        data = json.loads(result, 'latin-1')
         items = []
         titles = []
         for d in data:
@@ -74,20 +74,20 @@ class TFPlay(object):
     def just_for_kids(self):
         return self._parse_result_list(self._api_query(kids='true', limit=50))
 
-    def movies(self):
+    def list_movies(self):
         return self._parse_result_list(self._api_query(movies='true', limit=50))
 
-    def series(self):
-        return self._parse_result_list(self._api_query(series='true'))
+    def list_series(self):
+        return self._parse_result_list(self._api_query(series='true', group='true', limit='50'))
 
-    def genres(self):
+    def list_genres(self):
         return GENRES
 
-    def genre(self, genre):
+    def list_genre(self, genre):
         return self._parse_result_list(self._api_query(genre=genre, limit=100))
 
     def serie(self, serie_name):
-        data = json.loads(self._api_query(q=serie_name))
+        data = json.loads(self._api_query(q=serie_name), 'latin-1')
         serie = None
         for d in data:
             if d['title'].lower() != serie_name.lower():

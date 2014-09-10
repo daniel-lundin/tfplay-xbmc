@@ -21,8 +21,8 @@ class Navigation(object):
     def encode_parameters(params):
         quoted_params = []
         for key in params:
-            value = str(params[key])
-            quoted_params.append((urllib.quote(key), urllib.quote(value)))
+            value = unicode(params[key])
+            quoted_params.append((urllib.quote(key), urllib.quote(value.encode('unicode_escape'))))
         return "?" + "&".join(["%s=%s" % (a, b) for a, b in quoted_params])
 
     @staticmethod
@@ -33,7 +33,7 @@ class Navigation(object):
         for p in params:
             key, value = p.split('=')
             key = urllib.unquote(key)
-            value = urllib.unquote(value).decode('utf-8')
+            value = urllib.unquote(value.decode('unicode_escape')) #.decode('utf-8')
             result[key] = value
         return result
 
@@ -111,8 +111,8 @@ class Navigation(object):
 
     def build_main_menu(self):
         self.add_menu_item('Search', {'action': 'search'})
-        self.add_menu_item('Movies', {'action': 'movies'})
-        self.add_menu_item('Series', {'action': 'series'})
+        self.add_menu_item('Movies', {'action': 'list_movies'})
+        self.add_menu_item('Series', {'action': 'list_series'})
         self.add_menu_item('Just for kids', {'action': 'just_for_kids'})
         self.add_menu_item('Genres', {'action': 'list_genres'})
         return self.xbmcplugin.endOfDirectory(self.handle)
@@ -132,25 +132,25 @@ class Navigation(object):
             self.add_movie_list_item(item)
         return self.xbmcplugin.endOfDirectory(self.handle)
 
-    def movies(self):
-        for item in self.tf.movies():
+    def list_movies(self):
+        for item in self.tf.list_movies():
             self.add_movie_list_item(item)
         return self.xbmcplugin.endOfDirectory(self.handle)
 
-    def series(self):
-        for item in self.tf.series():
+    def list_series(self):
+        for item in self.tf.list_series():
             self.add_movie_list_item(item)
         return self.xbmcplugin.endOfDirectory(self.handle)
 
-    def genres(self):
-        for genre in self.tf.genres():
+    def list_genres(self):
+        for genre in self.tf.list_genres():
             self.add_menu_item(genre, {'action': 'list_genre', 'genre': genre})
         return self.xbmcplugin.endOfDirectory(self.handle)
 
-    def genre(self, genre):
-        items = self.tf.genre(genre)
+    def list_genre(self, genre):
+        items = self.tf.list_genre(genre)
         for item in items:
-            self.add_movie_item(item)
+            self.add_movie_list_item(item)
         return self.xbmcplugin.endOfDirectory(self.handle)
 
     def seasons(self, title, url, html):
@@ -221,14 +221,14 @@ class Navigation(object):
                 return self.search()
             if action == 'just_for_kids':
                 return self.just_for_kids()
-            if action == 'movies':
-                return self.movies()
-            if action == 'series':
-                return self.series()
-            if action == 'genres':
-                return self.genres()
-            if action == 'genre':
-                return self.genre(self.params['genre'])
+            if action == 'list_movies':
+                return self.list_movies()
+            if action == 'list_series':
+                return self.list_series()
+            if action == 'list_genres':
+                return self.list_genres()
+            if action == 'list_genre':
+                return self.list_genre(self.params['genre'])
             if action == 'open_item':
                 return self.open_item(self.params['title'],
                                       self.params['video_url'],

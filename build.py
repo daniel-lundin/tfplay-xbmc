@@ -9,6 +9,7 @@ files = [
     'default.py',
     'tfplay.py',
     'icon.png',
+    'fanart.jpg',
     'navigation.py',
 ]
 
