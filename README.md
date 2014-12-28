@@ -1,3 +1,6 @@
+This plugin is broken
+=====================
+
 TFPLAY XBMC
 ===========
 XBMC Addon for streaming from tfplay.org.
